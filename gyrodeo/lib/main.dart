@@ -42,8 +42,6 @@ class _VideoAppState extends State<VideoApp> {
   List<double>? _gyroscopeValues;
   final _streamSubscriptions = <StreamSubscription<dynamic>>[];
 
-
-
   @override
   void initState() {
     super.initState();
@@ -51,21 +49,19 @@ class _VideoAppState extends State<VideoApp> {
     _video = _controller.initialize();
     setState(() {
       gyroscopeEvents.listen(
-            (GyroscopeEvent event) {
-              x = event.x;
-              y = event.y;
-              z = event.z;
-              print(event);
+        (GyroscopeEvent event) {
+          x = event.x;
+          y = event.y;
+          z = event.z;
+          print(event);
           setState(() {
             _gyroscopeValues = <double>[event.x, event.y, event.z];
-            _controller.setVolume(y*150.abs());
+            _controller.setVolume(y * 150.abs());
           });
         },
       );
-
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -73,20 +69,22 @@ class _VideoAppState extends State<VideoApp> {
       title: 'ChoosenVideo',
       home: Scaffold(
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Expanded(
-              child: FutureBuilder(
-                future: _video,
-                builder: (ctx, snapshot) =>
-                    snapshot.connectionState == ConnectionState.waiting
-                        ? Center(child: CircularProgressIndicator())
-                        : Center(
-                            child: AspectRatio(
-                              aspectRatio: _controller.value.aspectRatio,
-                              child: VideoPlayer(_controller),
-                            ),
+            FutureBuilder(
+              future: _video,
+              builder: (ctx, snapshot) =>
+                  snapshot.connectionState == ConnectionState.waiting
+                      ? Center(child: CircularProgressIndicator())
+                      : Center(
+                          child: AspectRatio(
+                            aspectRatio: _controller.value.aspectRatio,
+                            child: VideoPlayer(_controller),
                           ),
-              ),
+                        ),
+            ),
+            SizedBox(
+              height: 40,
             ),
             IconButton(
               onPressed: () {
@@ -100,7 +98,9 @@ class _VideoAppState extends State<VideoApp> {
                   });
                 }
               },
-              icon: const Icon(Icons.arrow_forward_ios_sharp),
+              icon: _controller.value.isPlaying
+                  ? Icon(IconData(0xe47c, fontFamily: 'MaterialIcons'))
+                  : Icon(IconData(0xf00a0, fontFamily: 'MaterialIcons')),
             ),
           ],
         ),
