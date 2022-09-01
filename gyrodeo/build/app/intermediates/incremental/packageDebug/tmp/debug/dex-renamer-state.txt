@@ -1,0 +1,4 @@
+#Thu Sep 01 17:41:25 IST 2022
+base.0=C\:\\Users\\HP\\AndroidStudioProjects\\gyrodeo\\gyrodeo\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
